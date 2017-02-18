@@ -6,11 +6,15 @@ import numpy as np
 
 # Deliberately terrible code for teaching purposes
 
-boids_x = [random.uniform(-450, 50.0) for x in range(50)]
-boids_y = [random.uniform(300.0, 600.0) for x in range(50)]
-boid_x_velocities = [random.uniform(0, 10.0) for x in range(50)]
-boid_y_velocities = [random.uniform(-20.0, 20.0) for x in range(50)]
-boids = (boids_x, boids_y, boid_x_velocities, boid_y_velocities)
+def new_flock():
+    boids_x = [random.uniform(-450, 50.0) for x in range(50)]
+    boids_y = [random.uniform(300.0, 600.0) for x in range(50)]
+    boid_x_velocities = [random.uniform(0, 10.0) for x in range(50)]
+    boid_y_velocities = [random.uniform(-20.0, 20.0) for x in range(50)]
+    boids = (boids_x, boids_y, boid_x_velocities, boid_y_velocities)
+    return boids
+
+boids = new_flock()
 
 def update_boids(boids):
     xs, ys, xvs, yvs = boids
@@ -45,7 +49,7 @@ def update_boids(boids):
     for i in range(50):
         xs[i] = xs[i]+xvs[i]
         ys[i] = ys[i]+yvs[i]
-        
+
 figure = plt.figure()
 axes = plt.axes(xlim=(-500, 1500), ylim=(-500,1500))
 scatter = axes.scatter(boids[0], boids[1])
@@ -56,7 +60,7 @@ def animate(frame):
     y_pos = np.array(boids[1])
     data = np.hstack((x_pos[:,np.newaxis], y_pos[:, np.newaxis]))
     scatter.set_offsets(data)
-
+    
 anim = animation.FuncAnimation(figure, animate, frames=50, interval=50)
 
 if __name__ =="__main__":
