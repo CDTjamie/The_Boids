@@ -2,6 +2,7 @@
 from matplotlib import pyplot as plt
 from matplotlib import animation
 import random
+import numpy as np
 
 # Deliberately terrible code for teaching purposes
 
@@ -51,9 +52,11 @@ scatter = axes.scatter(boids[0], boids[1])
 
 def animate(frame):
     update_boids(boids)
-    scatter.set_offsets(zip(boids[0],boids[1]))
+    x_pos = np.array(boids[0])
+    y_pos = np.array(boids[1])
+    data = np.hstack((x_pos[:,np.newaxis], y_pos[:, np.newaxis]))
+    scatter.set_offsets(data)
 
-    
 anim = animation.FuncAnimation(figure, animate, frames=50, interval=50)
 
 if __name__ =="__main__":
