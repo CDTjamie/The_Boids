@@ -18,24 +18,34 @@ def new_flock():
 
 boids = new_flock()
 
+def fly_towards_middle(i, j, xs, ys, xvs, yvs):
+    xvs[i] = xvs[i]+(xs[j]-xs[i])*(0.01/len(xs))
+    yvs[i] = yvs[i]+(ys[j]-ys[i])*(0.01/len(xs))
+    
+    return xvs[i], yvs[j]
+
+def avoid_boids(i, j, xs, ys, xvs, yvs):
+    if (xs[j]-xs[i])**2 + (ys[j]-ys[i])**2 < 100:
+        xvs[i] = xvs[i]+(xs[i]-xs[j])
+        yvs[i] = yvs[i]+(ys[i]-ys[j])
+        
+    return xvs[i], yvs[i]
+
+def match_speed(i, j, xs, ys, xvs, yvs):
+    if (xs[j]-xs[i])**2 + (ys[j]-ys[i])**2 <10000:
+        xvs[i] = xvs[i]+(xvs[j]-xvs[i])*0.125/len(xs)
+        yvs[i] = yvs[i]+(yvs[j]-yvs[i])*0.125/len(xs)
+        
+    return xvs[i], yvs[i]
+
 def update_boids(boids):
     xs, ys, xvs, yvs = boids
     
     for i in boid_count:
         for j in boid_count:
-            #Fly towards the middle
-            xvs[i] = xvs[i]+(xs[j]-xs[i])*0.01/len(xs)
-            yvs[i] = yvs[i]+(ys[j]-ys[i])*0.01/len(xs)
-            
-            #Fly away from nearby boids
-            if (xs[j]-xs[i])**2 + (ys[j]-ys[i])**2 < 100:
-                xvs[i] = xvs[i]+(xs[i]-xs[j])
-                yvs[i] = yvs[i]+(ys[i]-ys[j])
-                
-            #Try to match speed with nearby boids
-            if (xs[j]-xs[i])**2 + (ys[j]-ys[i])**2 <10000:
-                xvs[i] = xvs[i]+(xvs[j]-xvs[i])*0.125/len(xs)
-                yvs[i] = yvs[i]+(yvs[j]-yvs[i])*0.125/len(xs)
+            fly_towards_middle(i,j,xs,ys,xvs,yvs)
+            avoid_boids(i,j,xs,ys,xvs,yvs)
+            match_speed(i,j,xs,ys,xvs,yvs)
                 
     # Move according to velocities
     for i in boid_count:
