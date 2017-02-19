@@ -9,12 +9,12 @@ import numpy as np
 boid_count = range(50)
 
 def new_flock():
-    boids_x = [random.uniform(-450, 50.0) for x in boid_count]
-    boids_y = [random.uniform(300.0, 600.0) for x in boid_count]
-    boid_x_velocities = [random.uniform(0, 10.0) for x in boid_count]
-    boid_y_velocities = [random.uniform(-20.0, 20.0) for x in boid_count]
-    boids = (boids_x, boids_y, boid_x_velocities, boid_y_velocities)
-    return boids
+    x_positions = [random.uniform(-450, 50.0) for x in boid_count]
+    y_positions = [random.uniform(300.0, 600.0) for x in boid_count]
+    x_velocities = [random.uniform(0, 10.0) for x in boid_count]
+    y_velocities = [random.uniform(-20.0, 20.0) for x in boid_count]
+    initial_boids = (x_positions, y_positions, x_velocities, y_velocities)
+    return initial_boids
 
 boids = new_flock()
 
