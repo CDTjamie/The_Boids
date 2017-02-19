@@ -13,54 +13,57 @@ def new_flock():
     y_positions = [random.uniform(300.0, 600.0) for x in boid_count]
     x_velocities = [random.uniform(0, 10.0) for x in boid_count]
     y_velocities = [random.uniform(-20.0, 20.0) for x in boid_count]
-    initial_boids = (x_positions, y_positions, x_velocities, y_velocities)
-    return initial_boids
+    boid_positions = (x_positions, y_positions)
+    boid_velocities = (x_velocities, y_velocities)
+    return boid_positions, boid_velocities
 
-boids = new_flock()
+boid_positions, boid_velocities = new_flock()
 
-def proximity(i, j, boids, distance):
-    return (boids[0][j]-boids[0][i])**2 + (boids[1][j]-boids[1][i])**2 < distance
+def proximity(i, j, boid_positions, boid_velocities, distance):
+    return (boid_positions[0][j]-boid_positions[0][i])**2 + (boid_positions[1][j]-boid_positions[1][i])**2 < distance
 
-def fly_towards_middle(i, j, boids):
-    boids[2][i] = boids[2][i]+(boids[0][j]-boids[0][i])*0.01/50
-    boids[3][i] = boids[3][i]+(boids[1][j]-boids[1][i])*0.01/50
+def fly_towards_middle(i, j, boid_positions, boid_velocities):
+    boid_velocities[0][i] = boid_velocities[0][i]+(boid_positions[0][j]-boid_positions[0][i])*0.01/50
+    boid_velocities[1][i] = boid_velocities[1][i]+(boid_positions[1][j]-boid_positions[1][i])*0.01/50
     
-    return boids
+    return boid_positions, boid_velocities
 
-def avoid_boids(i, j, boids):
-    if proximity(i,j,boids,100):
-        boids[2][i] = boids[2][i]+(boids[0][i]-boids[0][j])
-        boids[3][i] = boids[3][i]+(boids[1][i]-boids[1][j])
+def avoid_boids(i, j, boid_positions, boid_velocities):
+    if proximity(i,j,boid_positions,boid_velocities,100):
+        boid_velocities[0][i] = boid_velocities[0][i]+(boid_positions[0][i]-boid_positions[0][j])
+        boid_velocities[1][i] = boid_velocities[1][i]+(boid_positions[1][i]-boid_positions[1][j])
         
-    return boids
+    return boid_positions, boid_velocities
 
-def match_speed(i, j, boids):
-    if proximity(i,j,boids,10000):
-        boids[2][i] = boids[2][i]+(boids[2][j]-boids[2][i])*0.125/50
-        boids[3][i] = boids[3][i]+(boids[3][j]-boids[3][i])*0.125/50
+def match_speed(i, j, boid_positions, boid_velocities):
+    if proximity(i,j,boid_positions,boid_velocities,10000):
+        boid_velocities[0][i] = boid_velocities[0][i]+(boid_velocities[0][j]-boid_velocities[0][i])*0.125/50
+        boid_velocities[1][i] = boid_velocities[1][i]+(boid_velocities[1][j]-boid_velocities[1][i])*0.125/50
         
-    return boids
+    return boid_positions, boid_velocities
 
-def update_boids(boids):
+def update_boids(boid_positions, boid_velocities):
     for i in boid_count:
         for j in boid_count:
-            fly_towards_middle(i,j,boids)
-            avoid_boids(i,j,boids)
-            match_speed(i,j,boids)
+            fly_towards_middle(i,j,boid_positions, boid_velocities)
+            avoid_boids(i,j,boid_positions, boid_velocities)
+            match_speed(i,j,boid_positions, boid_velocities)
                 
     # Move according to velocities
     for i in boid_count:
-        boids[0][i] = boids[0][i]+boids[2][i]
-        boids[1][i] = boids[1][i]+boids[3][i]
+        boid_positions[0][i] = boid_positions[0][i]+boid_velocities[0][i]
+        boid_positions[1][i] = boid_positions[1][i]+boid_velocities[1][i]
+        
+    return boid_positions, boid_velocities
 
 figure = plt.figure()
 axes = plt.axes(xlim=(-500, 1500), ylim=(-500,1500))
-scatter = axes.scatter(boids[0], boids[1])
+scatter = axes.scatter(boid_positions[0], boid_positions[1])
 
 def animate(frame):
-    update_boids(boids)
-    x_pos = np.array(boids[0])
-    y_pos = np.array(boids[1])
+    update_boids(boid_positions, boid_velocities)
+    x_pos = np.array(boid_positions[0])
+    y_pos = np.array(boid_positions[1])
     data = np.hstack((x_pos[:,np.newaxis], y_pos[:, np.newaxis]))
     scatter.set_offsets(data)
     
