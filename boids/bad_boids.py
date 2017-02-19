@@ -45,13 +45,7 @@ def update_boids(boids):
     for i in boid_count:
         for j in boid_count:
             fly_towards_middle(i,j,boids)
-            
-    for i in boid_count:
-        for j in boid_count:
             avoid_boids(i,j,boids)
-            
-    for i in boid_count:
-        for j in boid_count:
             match_speed(i,j,boids)
                 
     # Move according to velocities
