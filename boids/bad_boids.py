@@ -18,42 +18,46 @@ def new_flock():
 
 boids = new_flock()
 
-def proximity(i, j, xs, ys, xvs, yvs, distance):
-    return (xs[j]-xs[i])**2 + (ys[j]-ys[i])**2 < distance
+def proximity(i, j, boids, distance):
+    return (boids[0][j]-boids[0][i])**2 + (boids[1][j]-boids[1][i])**2 < distance
 
-def fly_towards_middle(i, j, xs, ys, xvs, yvs):
-    xvs[i] = xvs[i]+(xs[j]-xs[i])*(0.01/len(xs))
-    yvs[i] = yvs[i]+(ys[j]-ys[i])*(0.01/len(xs))
+def fly_towards_middle(i, j, boids):
+    boids[2][i] = boids[2][i]+(boids[0][j]-boids[0][i])*0.01/50
+    boids[3][i] = boids[3][i]+(boids[1][j]-boids[1][i])*0.01/50
     
-    return xvs[i], yvs[j]
+    return boids
 
-def avoid_boids(i, j, xs, ys, xvs, yvs):
-    if proximity(i,j,xs,ys,xvs,yvs,100):
-        xvs[i] = xvs[i]+(xs[i]-xs[j])
-        yvs[i] = yvs[i]+(ys[i]-ys[j])
+def avoid_boids(i, j, boids):
+    if proximity(i,j,boids,100):
+        boids[2][i] = boids[2][i]+(boids[0][i]-boids[0][j])
+        boids[3][i] = boids[3][i]+(boids[1][i]-boids[1][j])
         
-    return xvs[i], yvs[i]
+    return boids
 
-def match_speed(i, j, xs, ys, xvs, yvs):
-    if proximity(i,j,xs,ys,xvs,yvs,10000):
-        xvs[i] = xvs[i]+(xvs[j]-xvs[i])*0.125/len(xs)
-        yvs[i] = yvs[i]+(yvs[j]-yvs[i])*0.125/len(xs)
+def match_speed(i, j, boids):
+    if proximity(i,j,boids,10000):
+        boids[2][i] = boids[2][i]+(boids[2][j]-boids[2][i])*0.125/50
+        boids[3][i] = boids[3][i]+(boids[3][j]-boids[3][i])*0.125/50
         
-    return xvs[i], yvs[i]
+    return boids
 
 def update_boids(boids):
-    xs, ys, xvs, yvs = boids
-    
     for i in boid_count:
         for j in boid_count:
-            fly_towards_middle(i,j,xs,ys,xvs,yvs)
-            avoid_boids(i,j,xs,ys,xvs,yvs)
-            match_speed(i,j,xs,ys,xvs,yvs)
+            fly_towards_middle(i,j,boids)
+            
+    for i in boid_count:
+        for j in boid_count:
+            avoid_boids(i,j,boids)
+            
+    for i in boid_count:
+        for j in boid_count:
+            match_speed(i,j,boids)
                 
     # Move according to velocities
     for i in boid_count:
-        xs[i] = xs[i]+xvs[i]
-        ys[i] = ys[i]+yvs[i]
+        boids[0][i] = boids[0][i]+boids[2][i]
+        boids[1][i] = boids[1][i]+boids[3][i]
 
 figure = plt.figure()
 axes = plt.axes(xlim=(-500, 1500), ylim=(-500,1500))
