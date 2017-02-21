@@ -7,12 +7,16 @@ import numpy as np
 # Deliberately terrible code for teaching purposes
 
 boid_number = 50
-boids = range(boid_number)
 x_position_limits = [-450, 50.0]
 y_position_limits = [300.0, 600.0]
 x_velocity_limits = [0, 10.0]
 y_velocity_limits = [-20.0, 20.0]
+avoid_distance = 100
+match_speed_distance = 10000
+middle_scaling = 0.01
+match_scaling = 0.125
 
+boids = range(boid_number)
 
 def initialise(limits, boids):
     values = [random.uniform(limits[0], limits[1]) for x in boids]
@@ -33,22 +37,22 @@ def proximity(i, j, boid_positions, boid_velocities, distance):
     return (boid_positions[0][j]-boid_positions[0][i])**2 + (boid_positions[1][j]-boid_positions[1][i])**2 < distance
 
 def fly_towards_middle(i, j, boid_positions, boid_velocities):
-    boid_velocities[0][i] = boid_velocities[0][i]+(boid_positions[0][j]-boid_positions[0][i])*0.01/boid_number
-    boid_velocities[1][i] = boid_velocities[1][i]+(boid_positions[1][j]-boid_positions[1][i])*0.01/boid_number
+    boid_velocities[0][i] = boid_velocities[0][i]+(boid_positions[0][j]-boid_positions[0][i])*middle_scaling/boid_number
+    boid_velocities[1][i] = boid_velocities[1][i]+(boid_positions[1][j]-boid_positions[1][i])*middle_scaling/boid_number
     
     return boid_positions, boid_velocities
 
 def avoid_boids(i, j, boid_positions, boid_velocities):
-    if proximity(i,j,boid_positions,boid_velocities,100):
+    if proximity(i,j,boid_positions,boid_velocities,avoid_distance):
         boid_velocities[0][i] = boid_velocities[0][i]+(boid_positions[0][i]-boid_positions[0][j])
         boid_velocities[1][i] = boid_velocities[1][i]+(boid_positions[1][i]-boid_positions[1][j])
         
     return boid_positions, boid_velocities
 
 def match_speed(i, j, boid_positions, boid_velocities):
-    if proximity(i,j,boid_positions,boid_velocities,10000):
-        boid_velocities[0][i] = boid_velocities[0][i]+(boid_velocities[0][j]-boid_velocities[0][i])*0.125/boid_number
-        boid_velocities[1][i] = boid_velocities[1][i]+(boid_velocities[1][j]-boid_velocities[1][i])*0.125/boid_number
+    if proximity(i,j,boid_positions,boid_velocities,match_speed_distance):
+        boid_velocities[0][i] = boid_velocities[0][i]+(boid_velocities[0][j]-boid_velocities[0][i])*match_scaling/boid_number
+        boid_velocities[1][i] = boid_velocities[1][i]+(boid_velocities[1][j]-boid_velocities[1][i])*match_scaling/boid_number
         
     return boid_positions, boid_velocities
 
