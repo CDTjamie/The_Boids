@@ -6,22 +6,23 @@ import numpy as np
 
 # Deliberately terrible code for teaching purposes
 
-boid_count = range(50)
+boid_number = 50
+boids = range(boid_number)
 x_position_limits = [-450, 50.0]
 y_position_limits = [300.0, 600.0]
 x_velocity_limits = [0, 10.0]
 y_velocity_limits = [-20.0, 20.0]
 
 
-def initialise(limits, boid_count):
-    values = [random.uniform(limits[0], limits[1]) for x in boid_count]
+def initialise(limits, boids):
+    values = [random.uniform(limits[0], limits[1]) for x in boids]
     return values
 
 def new_flock():
-    x_positions = initialise(x_position_limits, boid_count)
-    y_positions = initialise(y_position_limits, boid_count)
-    x_velocities = initialise(x_velocity_limits, boid_count)
-    y_velocities = initialise(y_velocity_limits, boid_count)
+    x_positions = initialise(x_position_limits, boids)
+    y_positions = initialise(y_position_limits, boids)
+    x_velocities = initialise(x_velocity_limits, boids)
+    y_velocities = initialise(y_velocity_limits, boids)
     boid_positions = (x_positions, y_positions)
     boid_velocities = (x_velocities, y_velocities)
     return boid_positions, boid_velocities
@@ -32,8 +33,8 @@ def proximity(i, j, boid_positions, boid_velocities, distance):
     return (boid_positions[0][j]-boid_positions[0][i])**2 + (boid_positions[1][j]-boid_positions[1][i])**2 < distance
 
 def fly_towards_middle(i, j, boid_positions, boid_velocities):
-    boid_velocities[0][i] = boid_velocities[0][i]+(boid_positions[0][j]-boid_positions[0][i])*0.01/50
-    boid_velocities[1][i] = boid_velocities[1][i]+(boid_positions[1][j]-boid_positions[1][i])*0.01/50
+    boid_velocities[0][i] = boid_velocities[0][i]+(boid_positions[0][j]-boid_positions[0][i])*0.01/boid_number
+    boid_velocities[1][i] = boid_velocities[1][i]+(boid_positions[1][j]-boid_positions[1][i])*0.01/boid_number
     
     return boid_positions, boid_velocities
 
@@ -46,20 +47,20 @@ def avoid_boids(i, j, boid_positions, boid_velocities):
 
 def match_speed(i, j, boid_positions, boid_velocities):
     if proximity(i,j,boid_positions,boid_velocities,10000):
-        boid_velocities[0][i] = boid_velocities[0][i]+(boid_velocities[0][j]-boid_velocities[0][i])*0.125/50
-        boid_velocities[1][i] = boid_velocities[1][i]+(boid_velocities[1][j]-boid_velocities[1][i])*0.125/50
+        boid_velocities[0][i] = boid_velocities[0][i]+(boid_velocities[0][j]-boid_velocities[0][i])*0.125/boid_number
+        boid_velocities[1][i] = boid_velocities[1][i]+(boid_velocities[1][j]-boid_velocities[1][i])*0.125/boid_number
         
     return boid_positions, boid_velocities
 
 def update_boids(boid_positions, boid_velocities):
-    for i in boid_count:
-        for j in boid_count:
+    for i in boids:
+        for j in boids:
             fly_towards_middle(i,j,boid_positions, boid_velocities)
             avoid_boids(i,j,boid_positions, boid_velocities)
             match_speed(i,j,boid_positions, boid_velocities)
                 
     # Move according to velocities
-    for i in boid_count:
+    for i in boids:
         boid_positions[0][i] = boid_positions[0][i]+boid_velocities[0][i]
         boid_positions[1][i] = boid_positions[1][i]+boid_velocities[1][i]
         
