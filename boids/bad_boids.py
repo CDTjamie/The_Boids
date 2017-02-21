@@ -7,16 +7,21 @@ import numpy as np
 # Deliberately terrible code for teaching purposes
 
 boid_count = range(50)
+x_position_limits = [-450, 50.0]
+y_position_limits = [300.0, 600.0]
+x_velocity_limits = [0, 10.0]
+y_velocity_limits = [-20.0, 20.0]
 
-def initialise(lower_limit, upper_limit, boid_count):
-    values = [random.uniform(lower_limit, upper_limit) for x in boid_count]
+
+def initialise(limits, boid_count):
+    values = [random.uniform(limits[0], limits[1]) for x in boid_count]
     return values
 
 def new_flock():
-    x_positions = initialise(-450, 50.0, boid_count)
-    y_positions = initialise(300.0, 600.0, boid_count)
-    x_velocities = initialise(0, 10.0, boid_count)
-    y_velocities = initialise(-20.0, 20.0, boid_count)
+    x_positions = initialise(x_position_limits, boid_count)
+    y_positions = initialise(y_position_limits, boid_count)
+    x_velocities = initialise(x_velocity_limits, boid_count)
+    y_velocities = initialise(y_velocity_limits, boid_count)
     boid_positions = (x_positions, y_positions)
     boid_velocities = (x_velocities, y_velocities)
     return boid_positions, boid_velocities
