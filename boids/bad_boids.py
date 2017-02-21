@@ -18,22 +18,30 @@ match_speed_distance = config["match_speed_distance"]
 middle_scaling = config["middle_scaling"]
 match_scaling = config["match_scaling"]
 
-boids = range(boid_number)
+class Flock(object):
+    def __init__(self, boid_number, x_position_limits, y_position_limits, x_velocity_limits, y_velocity_limits):
+        self.boid_number = boid_number
+        self.x_position_limits = x_position_limits
+        self.y_position_limits = y_position_limits
+        self.x_velocity_limits = x_velocity_limits
+        self.y_velocity_limits = y_velocity_limits
+        
+    def initialise(self, limits, boids):
+        values = [random.uniform(limits[0], limits[1]) for x in boids]
+        return values
+    
+    def new_flock(self):
+        boids = range(self.boid_number)
+        x_positions = self.initialise(self.x_position_limits, boids)
+        y_positions = self.initialise(self.y_position_limits, boids)
+        x_velocities = self.initialise(self.x_velocity_limits, boids)
+        y_velocities = self.initialise(self.y_velocity_limits, boids)
+        boid_positions = (x_positions, y_positions)
+        boid_velocities = (x_velocities, y_velocities)
+        return boid_positions, boid_velocities
 
-def initialise(limits, boids):
-    values = [random.uniform(limits[0], limits[1]) for x in boids]
-    return values
-
-def new_flock():
-    x_positions = initialise(x_position_limits, boids)
-    y_positions = initialise(y_position_limits, boids)
-    x_velocities = initialise(x_velocity_limits, boids)
-    y_velocities = initialise(y_velocity_limits, boids)
-    boid_positions = (x_positions, y_positions)
-    boid_velocities = (x_velocities, y_velocities)
-    return boid_positions, boid_velocities
-
-boid_positions, boid_velocities = new_flock()
+myflock = Flock(boid_number, x_position_limits, y_position_limits, x_velocity_limits, y_velocity_limits)
+boid_positions, boid_velocities = myflock.new_flock()
 
 def proximity(i, j, boid_positions, boid_velocities, distance):
     return (boid_positions[0][j]-boid_positions[0][i])**2 + (boid_positions[1][j]-boid_positions[1][i])**2 < distance
@@ -65,6 +73,8 @@ def move(boid_positions, boid_velocities, i):
     return boid_positions
 
 def update_boids(boid_positions, boid_velocities):
+    boids = range(boid_number)
+    
     for i in boids:
         for j in boids:
             fly_towards_middle(i,j,boid_positions, boid_velocities)
