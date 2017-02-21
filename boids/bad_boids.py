@@ -3,18 +3,11 @@ from matplotlib import pyplot as plt
 from matplotlib import animation
 import random
 import numpy as np
+import yaml
 
 # Deliberately terrible code for teaching purposes
 
-boid_number = 50
-x_position_limits = [-450, 50.0]
-y_position_limits = [300.0, 600.0]
-x_velocity_limits = [0, 10.0]
-y_velocity_limits = [-20.0, 20.0]
-avoid_distance = 100
-match_speed_distance = 10000
-middle_scaling = 0.01
-match_scaling = 0.125
+config = yaml.load(open("boids/config.yaml"))
 
 boids = range(boid_number)
 
