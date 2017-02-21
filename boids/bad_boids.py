@@ -58,6 +58,12 @@ def match_speed(i, j, boid_positions, boid_velocities):
         
     return boid_positions, boid_velocities
 
+def move(boid_positions, boid_velocities, i):
+    boid_positions[0][i] = boid_positions[0][i]+boid_velocities[0][i]
+    boid_positions[1][i] = boid_positions[1][i]+boid_velocities[1][i]
+    
+    return boid_positions
+
 def update_boids(boid_positions, boid_velocities):
     for i in boids:
         for j in boids:
@@ -65,10 +71,8 @@ def update_boids(boid_positions, boid_velocities):
             avoid_boids(i,j,boid_positions, boid_velocities)
             match_speed(i,j,boid_positions, boid_velocities)
                 
-    # Move according to velocities
     for i in boids:
-        boid_positions[0][i] = boid_positions[0][i]+boid_velocities[0][i]
-        boid_positions[1][i] = boid_positions[1][i]+boid_velocities[1][i]
+        boid_positions = move(boid_positions, boid_velocities, i)
         
     return boid_positions, boid_velocities
 
