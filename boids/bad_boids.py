@@ -9,6 +9,14 @@ import yaml
 
 config = yaml.load(open("boids/config.yaml"))
 boid_number = config["boid_number"]
+x_position_limits = config["x_position_limits"]
+y_position_limits = config["y_position_limits"]
+x_velocity_limits = config["x_velocity_limits"]
+y_velocity_limits = config["y_velocity_limits"]
+avoid_distance = config["avoid_distance"]
+match_speed_distance = config["match_speed_distance"]
+middle_scaling = config["middle_scaling"]
+match_scaling = config["match_scaling"]
 
 boids = range(boid_number)
 
