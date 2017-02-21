@@ -7,7 +7,7 @@ import yaml
 
 # Deliberately terrible code for teaching purposes
 
-config = yaml.load(open("config.yaml"))
+config = yaml.load(open("boids/config.yaml"))
 
 boids = range(boid_number)
 
