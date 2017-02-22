@@ -6,7 +6,7 @@ import yaml
 from boids.flock import Flock
 from boids.flight import Flight
 
-config = yaml.load(open("config.yaml"))
+config = yaml.load(open("boids/config.yaml"))
 boid_number = config["boid_number"]
 x_position_limits = config["x_position_limits"]
 y_position_limits = config["y_position_limits"]
