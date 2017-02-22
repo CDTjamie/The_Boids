@@ -4,7 +4,7 @@ from matplotlib import animation
 import numpy as np
 import yaml
 from boids.flock import Flock
-from flight import Flight
+from boids.flight import Flight
 
 config = yaml.load(open("config.yaml"))
 boid_number = config["boid_number"]
