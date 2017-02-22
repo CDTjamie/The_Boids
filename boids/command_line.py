@@ -3,7 +3,7 @@ from matplotlib import pyplot as plt
 from matplotlib import animation
 import numpy as np
 import yaml
-from flock import Flock
+from boids.flock import Flock
 from flight import Flight
 
 config = yaml.load(open("config.yaml"))
