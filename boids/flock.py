@@ -3,6 +3,9 @@ import random
 
 class Flock(object):
     def __init__(self, boid_number, x_position_limits, y_position_limits, x_velocity_limits, y_velocity_limits):
+        if float(boid_number) != int(float(boid_number)):
+            raise TypeError("Must have an integer number of boids")
+        
         self.boid_number = boid_number
         self.x_position_limits = x_position_limits
         self.y_position_limits = y_position_limits
