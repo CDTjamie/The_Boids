@@ -7,23 +7,22 @@ import os
 from boids.flock import Flock
 from boids.flight import Flight
 
-_ROOT = os.path.abspath(os.path.dirname(__file__))
-with open(os.path.join(_ROOT,'config.yaml')) as config_file:
-    config = yaml.load(config_file)
 
-boid_number = config["boid_number"]
-x_position_limits = config["x_position_limits"]
-y_position_limits = config["y_position_limits"]
-x_velocity_limits = config["x_velocity_limits"]
-y_velocity_limits = config["y_velocity_limits"]
-avoid_distance = config["avoid_distance"]
-match_speed_distance = config["match_speed_distance"]
-middle_scaling = config["middle_scaling"]
-match_scaling = config["match_scaling"]
+def process():
+    _ROOT = os.path.abspath(os.path.dirname(__file__))
+    with open(os.path.join(_ROOT,'config.yaml')) as config_file:
+        config = yaml.load(config_file)
 
-
-
-def process(boid_number, x_position_limits, y_position_limits, x_velocity_limits, y_velocity_limits, avoid_distance, match_speed_distance, middle_scaling, match_scaling):
+    boid_number = config["boid_number"]
+    x_position_limits = config["x_position_limits"]
+    y_position_limits = config["y_position_limits"]
+    x_velocity_limits = config["x_velocity_limits"]
+    y_velocity_limits = config["y_velocity_limits"]
+    avoid_distance = config["avoid_distance"]
+    match_speed_distance = config["match_speed_distance"]
+    middle_scaling = config["middle_scaling"]
+    match_scaling = config["match_scaling"]
+    
     myflock = Flock(boid_number, x_position_limits, y_position_limits, x_velocity_limits, y_velocity_limits)
     boid_positions, boid_velocities = myflock.new_flock()
 
@@ -48,4 +47,4 @@ def process(boid_number, x_position_limits, y_position_limits, x_velocity_limits
     anim
     
 if __name__ == "__main__":
-    process(boid_number, x_position_limits, y_position_limits, x_velocity_limits, y_velocity_limits, avoid_distance, match_speed_distance, middle_scaling, match_scaling)
+    process()
