@@ -41,8 +41,8 @@ def process():
     
     anim = animation.FuncAnimation(figure, animate, frames=50, interval=50)
 
-    if __name__ =="__main__":
-        plt.show()
+    #if __name__ =="__main__":
+    plt.show()
         
     anim
     
