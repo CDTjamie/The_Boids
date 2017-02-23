@@ -1,2 +1,3 @@
 
 include boids/config.yaml
+include boids/test/config_wrong1.yaml
