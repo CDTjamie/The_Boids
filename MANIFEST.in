@@ -1,3 +1,4 @@
 
 include boids/config.yaml
 include boids/test/config_wrong1.yaml
+include boids/test/test_flock.py
