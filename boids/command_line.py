@@ -3,10 +3,14 @@ from matplotlib import pyplot as plt
 from matplotlib import animation
 import numpy as np
 import yaml
+import os
 from boids.flock import Flock
 from boids.flight import Flight
 
-config = yaml.load(open("boids/config.yaml"))
+_ROOT = os.path.abspath(os.path.dirname(__file__))
+with open(os.path.join(_ROOT,'config.yaml')) as config_file:
+    config = yaml.load(config_file)
+
 boid_number = config["boid_number"]
 x_position_limits = config["x_position_limits"]
 y_position_limits = config["y_position_limits"]
