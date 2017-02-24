@@ -1,2 +1,2 @@
 
-This package models a flock of birds by simulating a few simple properties. It was produced for the second coursework of the UCL course MPHYG001 Research Software Engineering running 2016/17. Once pip installed, the code can be run by typing the word **boids** into the command line.
+This package models a flock of birds by simulating a few simple properties. It was produced for the second coursework of the UCL course MPHYG001 Research Software Engineering running 2016/17. Once pip installed, the code can be run by typing the word    boids    into the command line.
