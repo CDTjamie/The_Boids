@@ -1,6 +1,11 @@
 
 class Flight(object):
     def __init__(self, boid_number, boid_positions, boid_velocities, avoid_distance, match_speed_distance, middle_scaling, match_scaling):
+        if type(boid_positions) != tuple:
+            raise TypeError("boid_positions of wrong type - tuple required")
+        if type(boid_velocities) != tuple:
+            raise TypeError("boid_velocities of wrong type - tuple required")
+            
         self.boid_number = boid_number
         self.boid_positions = boid_positions
         self.boid_velocities = boid_velocities
