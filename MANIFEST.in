@@ -2,4 +2,7 @@
 include boids/config.yaml
 include boids/test/config_correct.yaml
 include boids/test/config_wrong1.yaml
+include boids/test/config_wrong2.yaml
+include boids/test/config_wrong3.yaml
 include boids/test/test_flock.py
+include boids/test/test_flight.py
