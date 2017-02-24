@@ -5,6 +5,8 @@ class Flock(object):
     def __init__(self, boid_number, x_position_limits, y_position_limits, x_velocity_limits, y_velocity_limits):
         if float(boid_number) != int(float(boid_number)):
             raise TypeError("Must have an integer number of boids")
+        if x_position_limits[1] < x_position_limits[0]:
+            raise ValueError("upper limit must be larger than lower limit")
         
         self.boid_number = boid_number
         self.x_position_limits = x_position_limits
