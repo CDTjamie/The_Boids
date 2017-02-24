@@ -7,6 +7,8 @@ class Flock(object):
             raise TypeError("Must have an integer number of boids")
         if x_position_limits[1] < x_position_limits[0]:
             raise ValueError("upper limit must be larger than lower limit")
+        if len(x_velocity_limits) > 2:
+            raise ValueError("limits must have 2 values")
         
         self.boid_number = boid_number
         self.x_position_limits = x_position_limits
